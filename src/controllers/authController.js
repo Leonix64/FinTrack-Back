@@ -7,15 +7,23 @@ const { JWT_SECRET } = require('../middlewares/authMiddleware');
 const register = async (req, res) => {
     const { name, email, password } = req.body;
 
-    // Validar si ya existe el usuario
-    const existingUser = await findUserByEmail(email);
-    if (existingUser) {
-        return res.status(400).json({ message: 'The mail is already registered' });
-    }
+    try {
+        // Validar si ya existe el usuario
+        const existingUser = await findUserByEmail(email);
+        if (existingUser) {
+            return res.status(400).json({ message: 'The email is already registered' });
+        }
 
-    // Crear usuario
-    const userId = await addUser({ name, email, password });
-    res.status(200).json({ message: 'User successfully registered', id: userId });
+        // Crear usuario con la fecha actual
+        const createdAt = new Date();
+        const userId = await addUser({ name, email, password, createdAt });
+
+        res.status(200).json({ message: 'User successfully registered', id: userId });
+    } catch (error) {
+        // Manejo de errores
+        console.error('Error registering user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 // Iniciar sesión
@@ -34,10 +42,17 @@ const login = async (req, res) => {
         return res.status(401).json({ message: 'Incorrect password' });
     }
 
+    const payload = {
+        id: user.id,
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt = new Date(),
+    }
+
     // Generar token JWT
-    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
     res.json({ message: 'Login successful', token });
-    console.log(token);
+    console.log('Auth: ', token, 'DataUser: ', payload);
 };
 
 module.exports = {

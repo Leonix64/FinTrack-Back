@@ -4,8 +4,9 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 // Importar rutas
-const { authenticateToken } = require('./middlewares/authMiddleware');
 const authRoutes = require('./routes/authRoutes');
+const financeRoutes = require('./routes/financeRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 
 // Inicializar la app
 const app = express();
@@ -20,6 +21,8 @@ app.get('/test', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/finances', financeRoutes);
+app.use('/api/categories', categoryRoutes);
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running at http://localhost:${PORT}`);
