@@ -8,7 +8,7 @@ const addTransaction = async (transaction) => {
 
 // Obtener todas las transacciones de un usuario
 const getTransactionsByUser = async (userId) => {
-    const snapshot = await db.collection('transactions').where('user_id', '==', userId).get();
+    const snapshot = await db.collection('transactions').where('userId', '==', userId).get();
     const transactions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return transactions;
 };

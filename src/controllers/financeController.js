@@ -25,6 +25,7 @@ const createTransaction = async (req, res) => {
 const getUserTransactions = async (req, res) => {
     try {
         const userId = req.user.id;
+        //console.log('User ID:', userId);
         const transactions = await getTransactionsByUser(userId);
 
         res.status(200).json(transactions);
