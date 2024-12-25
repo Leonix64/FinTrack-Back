@@ -15,7 +15,10 @@ const getCategoriesById = async (userId) => {
 
 // Actualizar una categoria
 const updateCategory = async (categoryId, updatedData) => {
-    await db.collection('categories').doc(categoryId).update(updatedData);
+
+    delete updatedData.id;
+
+    await db.collection('categories').doc(categoryId).set(updatedData, { merge: true });
     return true;
 };
 

@@ -15,7 +15,10 @@ const getTransactionsByUser = async (userId) => {
 
 // Actualizar una transacción
 const updateTransaction = async (transactionId, updatedData) => {
-    await db.collection('transactions').doc(transactionId).update(updatedData);
+
+    delete updatedData.id;
+
+    await db.collection('transactions').doc(transactionId).set(updatedData, { merge: true });
     return true;
 };
 

@@ -7,7 +7,7 @@ const router = express.Router();
 // Rutas
 router.post('/', authenticateToken, createTransaction);
 router.get('/', authenticateToken, getUserTransactions);
-router.put('/:id', authenticateToken, updateUserTransaction);
+router.patch('/:id', authenticateToken, updateUserTransaction);
 router.delete('/:id', authenticateToken, deleteUserTransaction);
 
 module.exports = router;
