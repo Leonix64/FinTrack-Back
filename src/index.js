@@ -7,6 +7,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 const financeRoutes = require('./routes/financeRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 // Inicializar la app
 const app = express();
@@ -23,6 +24,7 @@ app.get('/test', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/finances', financeRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running at http://localhost:${PORT}`);
