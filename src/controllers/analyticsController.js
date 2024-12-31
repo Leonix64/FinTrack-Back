@@ -1,10 +1,10 @@
-const { getGeneralStats, getStatsByCategory, getMonthlyStats, getFrequentExpenses, getUserComparison, getMonthlyRanking, getGuiltMetric } = require('../models/analyticsModel');
+const { fetchGeneralTransactionSummary, analyzeCategoryBreakdown, computeMonthlyInsights, identifySpendingPatterns, compareUserSpending, generateMonthlyRanking, calculateImpulsiveSpending, evaluateCategoryDiversity } = require('../models/analyticsModel');
 
-// Obtener estadisticas generales
-const getDashboardGeneralStats = async (req, res) => {
+// Obtener resumen general de transacciones
+const fetchGeneralStatsHandler = async (req, res) => {
     try {
         const userId = req.user.id;
-        const stats = await getGeneralStats(userId);
+        const stats = await fetchGeneralTransactionSummary(userId);
         res.status(200).json(stats);
     } catch (error) {
         console.error(error);
@@ -12,11 +12,11 @@ const getDashboardGeneralStats = async (req, res) => {
     }
 };
 
-// Obtener estadisticas por categoria
-const getDashboardStatsByCategory = async (req, res) => {
+// Analizar desglose por categoría
+const analyzeCategoryStatsHandler = async (req, res) => {
     try {
         const userId = req.user.id;
-        const stats = await getStatsByCategory(userId);
+        const stats = await analyzeCategoryBreakdown(userId);
         res.status(200).json(stats);
     } catch (error) {
         console.error(error);
@@ -24,11 +24,11 @@ const getDashboardStatsByCategory = async (req, res) => {
     }
 };
 
-// Obtener estadisticas mensuales
-const getDashboardMonthlyStats = async (req, res) => {
+// Calcular estadísticas mensuales
+const computeMonthlyStatsHandler = async (req, res) => {
     try {
         const userId = req.user.id;
-        const stats = await getMonthlyStats(userId);
+        const stats = await computeMonthlyInsights(userId);
         res.status(200).json(stats);
     } catch (error) {
         console.error(error);
@@ -36,11 +36,11 @@ const getDashboardMonthlyStats = async (req, res) => {
     }
 };
 
-// Estadisticas de gastos frecuentes
-const getFrequentExpensesStats = async (req, res) => {
+// Identificar patrones de gasto
+const identifySpendingPatternsHandler = async (req, res) => {
     try {
         const userId = req.user.id;
-        const stats = await getFrequentExpenses(userId);
+        const stats = await identifySpendingPatterns(userId);
         res.status(200).json(stats);
     } catch (error) {
         console.error(error);
@@ -48,11 +48,11 @@ const getFrequentExpensesStats = async (req, res) => {
     }
 };
 
-// Comparativa con otros usuarios
-const getUserComparisonStats = async (req, res) => {
+// Comparar gasto del usuario
+const compareUserSpendingHandler = async (req, res) => {
     try {
         const userId = req.user.id;
-        const stats = await getUserComparison(userId);
+        const stats = await compareUserSpending(userId);
         res.status(200).json(stats);
     } catch (error) {
         console.error(error);
@@ -60,11 +60,11 @@ const getUserComparisonStats = async (req, res) => {
     }
 };
 
-// Ranking personal mensual
-const getMonthlyRankingStats = async (req, res) => {
+// Generar ranking mensual
+const generateMonthlyRankingHandler = async (req, res) => {
     try {
         const userId = req.user.id;
-        const stats = await getMonthlyRanking(userId);
+        const stats = await generateMonthlyRanking(userId);
         res.status(200).json(stats);
     } catch (error) {
         console.error(error);
@@ -72,12 +72,11 @@ const getMonthlyRankingStats = async (req, res) => {
     }
 };
 
-// Metrica de culpabilidad
-
-const getGuiltMetricStats = async (req, res) => {
+// Calcular métrica de impulsividad
+const calculateImpulsiveSpendingHandler = async (req, res) => {
     try {
         const userId = req.user.id;
-        const stats = await getGuiltMetric(userId);
+        const stats = await calculateImpulsiveSpending(userId);
         res.status(200).json(stats);
     } catch (error) {
         console.error(error);
@@ -85,12 +84,25 @@ const getGuiltMetricStats = async (req, res) => {
     }
 };
 
+// Evaluar diversidad de categorías
+const evaluateCategoryDiversityHandler = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const stats = await evaluateCategoryDiversity(userId);
+        res.status(200).json(stats);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching category diversity', error });
+    }
+};
+
 module.exports = {
-    getDashboardGeneralStats,
-    getDashboardStatsByCategory,
-    getDashboardMonthlyStats,
-    getFrequentExpensesStats,
-    getUserComparisonStats,
-    getMonthlyRankingStats,
-    getGuiltMetricStats
+    fetchGeneralStatsHandler,
+    analyzeCategoryStatsHandler,
+    computeMonthlyStatsHandler,
+    identifySpendingPatternsHandler,
+    compareUserSpendingHandler,
+    generateMonthlyRankingHandler,
+    calculateImpulsiveSpendingHandler,
+    evaluateCategoryDiversityHandler
 };
